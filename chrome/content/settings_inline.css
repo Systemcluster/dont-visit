@@ -40,13 +40,22 @@ div#form span.flexrow input:last-child {
 	flex: 0 0 50px;
 }
 
-#blocklist {
+input[type="button"] {
+	border:1px #ccc solid;
+	border-radius:3px;
+	padding: 5px 15px;
+	cursor: pointer;
+}
+
+#blocklist, #blockinput {
 	border:1px #ccc solid;
 	border-radius:3px;
 	list-style-type: none;
-	padding:0;
 	background:#fff;
 	overflow:auto;
+}
+#blocklist {
+	padding: 0;
 }
 #blocklist li {
 	list-style-type: none;
@@ -86,7 +95,34 @@ div#form span.flexrow input:last-child {
 	border-left:1px solid rgb(220,220,220);
 }
 
+#textinput {
+	border:1px #ccc solid;
+	border-radius:3px;
+	list-style-type: none;
+	padding:10px;
+	background:#fff;
+	overflow:auto;
+	width: 100%;
+	height: auto;
+	min-height: 250px;
+	margin-top: 12px;
+}
+
 span.i {
 	font-style:normal;
 	color:rgb(100,100,100);
+}
+
+#toolbar {
+	display: flex;
+}
+#toolbar * {
+	flex: 0 0 auto;
+}
+#toolbar .placeholder {
+	flex: 1 1 auto;
+}
+
+.hidden {
+	display: none !important;
 }

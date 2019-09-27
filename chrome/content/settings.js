@@ -1,12 +1,12 @@
 function normalizeUrl(ourl) {
-	var url = ourl.trim();
+	let url = ourl.trim();
 	if(url.length == 0) 
 		return "";
 	url = url.toLowerCase();
 	// remove protocol part
-	var slashes = url.indexOf("://");
+	let slashes = url.indexOf("://");
 	if(slashes != -1 && slashes < url.indexOf(".")) {
-		var splits = url.split("://");
+		let splits = url.split("://");
 		if(splits.shift().match(/^[a-z0-9\-_]+$/)) {
 			url = splits.join("://");
 		}
@@ -18,27 +18,27 @@ function normalizeUrl(ourl) {
 	return url;
 }
 function siteValid(url) {
-	var input = normalizeUrl(url);
+	let input = normalizeUrl(url);
 	if(input.length == 0) {
 		return false;
 	}
-	var list = document.getElementById("blocklist").getElementsByTagName("li");
-	for (var i = 0; i < list.length; ++i) {
+	let list = document.getElementById("blocklist").getElementsByTagName("li");
+	for (let i = 0; i < list.length; ++i) {
 		if (input == list[i].firstChild.textContent) {
 			return false;
 		}
-	};
+	}
 	return true;
 }
 function addSite(url) {
 	if(!siteValid(url)) {
 		return false;
 	}
-	var li = document.createElement("li");
-	var span1 = document.createElement("span");
-	var text1 = document.createTextNode(normalizeUrl(url));
-	var span2 = document.createElement("span");
-	var text2 = document.createTextNode("X");
+	let li = document.createElement("li");
+	let span1 = document.createElement("span");
+	let text1 = document.createTextNode(normalizeUrl(url));
+	let span2 = document.createElement("span");
+	let text2 = document.createTextNode("X");
 	span1.appendChild(text1);
 	span2.appendChild(text2);
 	li.appendChild(span1);
@@ -75,40 +75,51 @@ function onBlockInputKeyDown(e) {
 }
 document.getElementById("blockinput").addEventListener("keydown", onBlockInputKeyDown);
 
-function save(e) {
-	document.getElementById("save").disabled = true;
-	document.getElementById("cancel").disabled = true;
-	var lenient = document.getElementById("input_block_lenient").checked;
-	var sites = [];
-	var list = document.getElementById("blocklist").getElementsByTagName("li");
-	for (var i = 0; i < list.length; ++i) {
-		var site = list[i].firstChild.textContent;
+function getSitesFromList() {
+	let sites = [];
+	let list = document.getElementById("blocklist").getElementsByTagName("li");
+	for (let i = 0; i < list.length; ++i) {
+		let site = list[i].firstChild.textContent;
 		// create regular expression from readable string
 		site = site.replace(/[.+?^${}()|[\]\\]{1}/g, "\\$&");
 		site = site.replace(/[*]{1}/g, ".*");
 		sites.push(site);
-	};
+	}
+	return sites;
+}
+
+function save(e) {
+	document.getElementById("save").disabled = true;
+	document.getElementById("cancel").disabled = true;
+	document.getElementById("textedit_toggle").disabled = true;
+	let lenient = document.getElementById("input_block_lenient").checked;
+	let sites = getSitesFromList();
 	chrome.storage.sync.set({"input_block_lenient": lenient, "input_block_list": sites}, function() {
 		cancel();
-	});	
+	});
+}
+function loadItems(items) {
+	if (!items) {
+		console.error(`can't load items: items is ${items}`);
+		return;
+	}
+	if(items.input_block_lenient)
+		document.getElementById("input_block_lenient").checked = true;
+	let list = document.getElementById("blocklist");
+	while(list.firstChild) {
+		list.removeChild(list.firstChild);
+	}
+	let sites = items.input_block_list;
+	for(let i = 0; i < sites.length; ++i) {
+		let site = sites[i];
+		// create readable string from regular expression
+		site = site.replace(/\\([.+?^${}()|[\]\\]{1})/g, "$1");
+		site = site.replace(/[.]{1}[*]{1}/g, "*");
+		addSite(site);
+	}	
 }
 function load(e) {
-	chrome.storage.sync.get({"input_block_lenient": false, "input_block_list": []}, function(items) {
-		if(items.input_block_lenient)
-			document.getElementById("input_block_lenient").checked = true;
-		var list = document.getElementById("blocklist");
-		while(list.firstChild) {
-			list.removeChild(list.firstChild);
-		}
-		var sites = items.input_block_list;
-		for(var i = 0; i < sites.length; ++i) {
-			var site = sites[i];
-			// create readable string from regular expression
-			site = site.replace(/\\([.+?^${}()|[\]\\]{1})/g, "$1");
-			site = site.replace(/[.]{1}[*]{1}/g, "*");
-			addSite(site);
-		}	
-	});
+	chrome.storage.sync.get({"input_block_lenient": false, "input_block_list": []}, loadItems);
 }
 function cancel() {
 	window.setTimeout(window.close, 1);
@@ -116,3 +127,30 @@ function cancel() {
 document.addEventListener("DOMContentLoaded", load);
 document.getElementById("save").addEventListener("click", save);
 document.getElementById("cancel").addEventListener("click", cancel);
+
+function openTextEdit() {
+	document.getElementById("textedit_toggle").disabled = true;
+	document.getElementById("textinput").value = getSitesFromList().join("\n");
+	document.getElementById("blocklist_wrap").classList.add("hidden");
+	document.getElementById("textedit_wrap").classList.remove("hidden");
+	document.getElementById("textedit_toggle").value = "Show as list";
+	document.getElementById("textedit_toggle").disabled = false;
+}
+function closeTextEdit() {
+	document.getElementById("textedit_toggle").disabled = true;
+	loadItems({ input_block_list: document.getElementById("textinput").value.trim().split(/\s*[\r\n]+\s*/g) });
+	document.getElementById("textedit_wrap").classList.add("hidden");
+	document.getElementById("blocklist_wrap").classList.remove("hidden");
+	document.getElementById("textedit_toggle").value = "Edit as text";
+	document.getElementById("textedit_toggle").disabled = false;
+}
+function toggleTextEdit() {
+	let mode_t = document.getElementById("textedit_wrap").classList.contains("hidden");
+	if (mode_t) {
+		openTextEdit();
+	}
+	else {
+		closeTextEdit();
+	}
+}
+document.getElementById("textedit_toggle").addEventListener("click", toggleTextEdit);

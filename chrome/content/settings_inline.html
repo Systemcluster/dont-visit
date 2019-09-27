@@ -11,7 +11,7 @@
 <body>
 	<div id="form">
 		<div>
-			<input type="checkbox" name="skip_instant" id="input_block_lenient">&nbsp;Provide the option to temporarily suspend site blocks
+			<input type="checkbox" name="skip_instant" id="input_block_lenient"><label for="input_block_lenient">&nbsp;Provide the option to temporarily suspend site blocks</label>
 		</div>
 		<!--div>
 			<input type="checkbox" name="skip_preventive" id="input_block_preventive">&nbsp;Stop links to blocked sites from being accessed
@@ -20,20 +20,26 @@
 		<div>
 			Add sites you want to block access to below. 
 		</div>
-		<div>
+		<div id="blocklist_wrap">
 			<ul class="blocklist" id="blocklist">
 			</ul>
 			<span class="flexrow">
-			<input type="text" id="blockinput">&nbsp;<input type="button" id="blockbutton" value="Add" disabled="disabled">
+				<input type="text" id="blockinput">&nbsp;<input type="button" id="blockbutton" value="Add" disabled="disabled">
 			</span>
+		</div>
+		<div id="textedit_wrap" class="hidden">
+			<textarea id="textinput" resizable="true"></textarea>
 		</div>
 		<div>
 			<br>
 			Asterisks (*) are interpreted as wildcards. If you want to block access to a sites main page only, enter <span class="i">example.com</span>, if you want to block a site and all its pages, enter <span class="i">example.com/*</span>.
 		</div>
 		<div>&nbsp;</div>
-		<div>
+		<div id="toolbar">
+			<input type="button" id="textedit_toggle" value="Edit as text">
+			<span class="placeholder"></span>
 			<input type="button" id="save" value="Save">
+			&nbsp;
 			<input type="button" id="cancel" value="Cancel">
 		</div>
 	</div>
