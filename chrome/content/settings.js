@@ -97,6 +97,9 @@ function save(e) {
 	chrome.runtime.sendMessage({ input_block_list: sites, input_block_lenient: lenient });
 	try {
 		chrome.storage.sync.set({ "input_block_lenient": lenient, "input_block_list": sites }, function () {
+			document.getElementById("save").disabled = false;
+			document.getElementById("cancel").disabled = false;
+			document.getElementById("textedit_toggle").disabled = false;
 			cancel();
 		});
 	}

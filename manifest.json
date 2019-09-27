@@ -7,6 +7,13 @@
 	"version": "0.5",
 	"author": "Christian Sdunek",
 
+	"applications": {
+        "gecko": {
+            "id": "dontvisit@systemcluster.me",
+            "strict_min_version": "57.0"
+        }
+    },
+
 	"options_ui": {
 		"page": "chrome/content/settings_inline.html",
 		"open_in_tab": false
