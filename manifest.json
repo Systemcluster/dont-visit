@@ -18,6 +18,14 @@
 		"page": "chrome/content/settings_inline.html",
 		"open_in_tab": false
 	},
+	"browser_action": {
+		"default_title": "Don't Visit",
+		"default_icon": {
+			"48": "chrome/skin/icon48.png",
+			"64": "chrome/skin/icon64.png",
+			"128": "chrome/skin/icon128.png"
+		}
+	},
 
 	"icons": { 
 		"48": "chrome/skin/icon48.png",

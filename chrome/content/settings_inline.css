@@ -95,6 +95,10 @@ input[type="button"] {
 	border-left:1px solid rgb(220,220,220);
 }
 
+#textedit_wrap {
+	display: flex;
+	flex-direction: row;
+}
 #textinput {
 	border:1px #ccc solid;
 	border-radius:3px;
@@ -102,10 +106,10 @@ input[type="button"] {
 	padding:10px;
 	background:#fff;
 	overflow:auto;
-	width: 100%;
 	height: auto;
 	min-height: 250px;
 	margin-top: 12px;
+	flex: 1;
 }
 
 span.i {
