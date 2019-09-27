@@ -94,9 +94,15 @@ function save(e) {
 	document.getElementById("textedit_toggle").disabled = true;
 	let lenient = document.getElementById("input_block_lenient").checked;
 	let sites = getSitesFromList();
-	chrome.storage.sync.set({"input_block_lenient": lenient, "input_block_list": sites}, function() {
-		cancel();
-	});
+	chrome.runtime.sendMessage({ input_block_list: sites, input_block_lenient: lenient });
+	try {
+		chrome.storage.sync.set({ "input_block_lenient": lenient, "input_block_list": sites }, function () {
+			cancel();
+		});
+	}
+	catch (e) {
+		console.trace(e);
+	}
 }
 function loadItems(items) {
 	if (!items) {
@@ -119,7 +125,12 @@ function loadItems(items) {
 	}	
 }
 function load(e) {
-	chrome.storage.sync.get({"input_block_lenient": false, "input_block_list": []}, loadItems);
+	try {
+		chrome.storage.sync.get({ "input_block_lenient": false, "input_block_list": [] }, loadItems);
+	}
+	catch (e) {
+		console.trace(e);
+	}
 }
 function cancel() {
 	window.setTimeout(window.close, 1);

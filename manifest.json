@@ -7,10 +7,9 @@
 	"version": "0.4",
 	"author": "Christian Sdunek",
 
-	"options_page" : "chrome/content/settings.html",
 	"options_ui": {
 		"page": "chrome/content/settings_inline.html",
-		"chrome_style": true
+		"open_in_tab": false
 	},
 
 	"icons": { 
@@ -21,11 +20,12 @@
 
 	"background": { 
 		"scripts": ["lib/background.js"],
-		"persistent": false
+		"persistent": true
 	},
 
 	"permissions": [
 		"tabs",
+		"webNavigation",
 		"storage"
 	]
 }
