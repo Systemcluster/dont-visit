@@ -141,6 +141,8 @@ document.getElementById("cancel").addEventListener("click", cancel);
 
 function openTextEdit() {
 	document.getElementById("textedit_toggle").disabled = true;
+	document.getElementById("save").disabled = true;
+	document.getElementById("cancel").disabled = true;
 	document.getElementById("textinput").value = getSitesFromList().join("\n");
 	document.getElementById("blocklist_wrap").classList.add("hidden");
 	document.getElementById("textedit_wrap").classList.remove("hidden");
@@ -153,6 +155,8 @@ function closeTextEdit() {
 	document.getElementById("textedit_wrap").classList.add("hidden");
 	document.getElementById("blocklist_wrap").classList.remove("hidden");
 	document.getElementById("textedit_toggle").value = "Edit as text";
+	document.getElementById("save").disabled = false;
+	document.getElementById("cancel").disabled = false;
 	document.getElementById("textedit_toggle").disabled = false;
 }
 function toggleTextEdit() {
