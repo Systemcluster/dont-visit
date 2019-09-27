@@ -1,0 +1,31 @@
+{
+	"manifest_version": 2,
+
+	"name": "Don't Visit - Block Sites",
+	"short_name": "Don't Visit",
+	"description": "Blocks you from accessing websites of your choice.",
+	"version": "0.4",
+	"author": "Christian Sdunek",
+
+	"options_page" : "chrome/content/settings.html",
+	"options_ui": {
+		"page": "chrome/content/settings_inline.html",
+		"chrome_style": true
+	},
+
+	"icons": { 
+		"48": "chrome/skin/icon48.png",
+		"64": "chrome/skin/icon64.png",
+		"128": "chrome/skin/icon128.png"
+	},
+
+	"background": { 
+		"scripts": ["lib/background.js"],
+		"persistent": false
+	},
+
+	"permissions": [
+		"tabs",
+		"storage"
+	]
+}

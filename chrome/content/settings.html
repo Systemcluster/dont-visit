@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Don't Visit Configuration</title>
+	<meta charset="utf-8">
+	<style>
+		@import url("/chrome/content/settings.css");
+	</style>
+</head>
+
+<body>
+	<div class="center">
+		<img id="logo" src="/chrome/skin/icon64.png">
+		<div id="form">
+			<legend>Don't Visit Configuration</legend>
+			<fieldset>
+				<div>
+					<input type="checkbox" name="skip_instant" id="input_block_lenient">&nbsp;Provide the option to temporarily suspend site blocks
+				</div>
+				<!--div>
+					<input type="checkbox" name="skip_preventive" id="input_block_preventive">&nbsp;Stop links to blocked sites from being accessed
+				</div-->
+				<div>&nbsp;</div>
+				<div>
+					Add sites you want to block access to below. 
+				</div>
+				<div>
+					<ul class="blocklist" id="blocklist">
+					</ul>
+					<span class="flexrow">
+					<input type="text" id="blockinput">&nbsp;<input type="button" id="blockbutton" value="Add" disabled="disabled">
+					</span>
+				</div>
+				<div>
+					<br>
+					Asterisks (*) are interpreted as wildcards. If you want to block access to a sites main page only, enter <span class="i">example.com</span>, if you want to block a site and all its pages, enter <span class="i">example.com/*</span>.
+				</div>
+				<div>&nbsp;</div>
+				<div>
+					<input type="button" id="save" value="Save">
+					<input type="button" id="cancel" value="Cancel">
+				</div>
+
+			</fieldset>
+		</div>
+	</div>
+	<script src="/chrome/content/settings.js"></script>
+</body>
+
+</html>
