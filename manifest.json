@@ -38,9 +38,19 @@
 		"persistent": true
 	},
 
+	"web_accessible_resources": [
+		"lib/stop.js",
+		"lib/stop.css",
+		"lib/stop.html",
+		"chrome/skin/stop256.png"
+	],
+
 	"permissions": [
+		"webRequest",
+		"webRequestBlocking",
+		"activeTab",
 		"tabs",
-		"webNavigation",
-		"storage"
+		"storage",
+		"*://*/*"
 	]
 }

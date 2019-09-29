@@ -93,10 +93,15 @@ function save(e) {
 	document.getElementById("cancel").disabled = true;
 	document.getElementById("textedit_toggle").disabled = true;
 	let lenient = document.getElementById("input_block_lenient").checked;
+	let frames = document.getElementById("input_block_frames").checked;
 	let sites = getSitesFromList();
 	chrome.runtime.sendMessage({ input_block_list: sites, input_block_lenient: lenient });
 	try {
-		chrome.storage.sync.set({ "input_block_lenient": lenient, "input_block_list": sites }, function () {
+		chrome.storage.sync.set({
+			"input_block_lenient": lenient,
+			"input_block_frames": frames,
+			"input_block_list": sites
+		}, function () {
 			document.getElementById("save").disabled = false;
 			document.getElementById("cancel").disabled = false;
 			document.getElementById("textedit_toggle").disabled = false;
@@ -114,6 +119,8 @@ function loadItems(items) {
 	}
 	if(items.input_block_lenient)
 		document.getElementById("input_block_lenient").checked = true;
+	if(items.input_block_frames)
+		document.getElementById("input_block_frames").checked = true;
 	let list = document.getElementById("blocklist");
 	while(list.firstChild) {
 		list.removeChild(list.firstChild);
@@ -129,7 +136,11 @@ function loadItems(items) {
 }
 function load(e) {
 	try {
-		chrome.storage.sync.get({ "input_block_lenient": false, "input_block_list": [] }, loadItems);
+		chrome.storage.sync.get({
+			"input_block_lenient": false,
+			"input_block_frames": true,
+			"input_block_list": []
+		}, loadItems);
 	}
 	catch (e) {
 		console.trace(e);
