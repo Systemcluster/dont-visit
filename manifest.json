@@ -4,7 +4,7 @@
 	"name": "Don't Visit - Block Sites",
 	"short_name": "Don't Visit",
 	"description": "Blocks you from accessing websites of your choice.",
-	"version": "0.6",
+	"version": "0.6.1",
 	"author": "Christian Sdunek",
 
 	"applications": {
